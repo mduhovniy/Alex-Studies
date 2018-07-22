@@ -4,6 +4,7 @@ import info.duhovniy.data.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +14,7 @@ public class Main {
         System.out.print("Введите количество студентов в группе: ");
         Scanner sc = new Scanner(System.in);
         int numberOfStudents = sc.nextInt();
-        List<Student> group = new ArrayList<>();
+        List<Student> group = new ArrayList<>(numberOfStudents);
 
         for (int i = 0; i < numberOfStudents; i++) {
 
@@ -47,5 +48,22 @@ public class Main {
         }
         group.get(leaderIndex).setLeader(true);
         System.out.println("Староста группы: " + group.get(leaderIndex));
+
+        Random rnd = new Random();
+        for(Student student : group) {
+            student.setPresent(rnd.nextBoolean());
+        }
+
+        printPresents(group);
+    }
+
+    private static void printPresents(List<Student> group) {
+
+        System.out.println("Сегодня присутствуют:");
+        for(Student student : group) {
+            if(student.isPresent()) {
+                System.out.println(student);
+            }
+        }
     }
 }

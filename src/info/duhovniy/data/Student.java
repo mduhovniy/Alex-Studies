@@ -6,6 +6,7 @@ public class Student {
     private final String firstName, lastName;
     private final int rating;
     private boolean leader;
+    private boolean present;
 
     public Student(long id, String firstName, String lastName, int rating, boolean leader) {
         this.id = id;
@@ -13,6 +14,7 @@ public class Student {
         this.lastName = lastName;
         this.rating = rating;
         this.leader = leader;
+        this.present = false;
     }
 
     public long getId() {
@@ -37,6 +39,14 @@ public class Student {
 
     public void setLeader(boolean leader) {
         this.leader = leader;
+    }
+
+    public boolean isPresent() {
+        return present;
+    }
+
+    public void setPresent(boolean present) {
+        this.present = present;
     }
 
     @Override
