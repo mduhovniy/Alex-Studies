@@ -2,7 +2,10 @@ package info.duhovniy.service;
 
 import info.duhovniy.data.Student;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 public class Group {
 
@@ -55,7 +58,7 @@ public class Group {
 
     public void printPresents() {
 
-        System.out.println("Сегодня присутствуют:");
+        System.out.println("Сегодня в группе " + this.name + " присутствуют:");
         int count = 0;
         for(Student student : this.students) {
             if(student.isPresent()) {
