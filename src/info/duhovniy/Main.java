@@ -1,69 +1,36 @@
 package info.duhovniy;
 
 import info.duhovniy.data.Student;
+import info.duhovniy.service.Group;
+import info.duhovniy.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.print("Введите количество студентов в группе: ");
         Scanner sc = new Scanner(System.in);
+
+        System.out.print("Введите количество студентов в группе: ");
         int numberOfStudents = sc.nextInt();
-        List<Student> group = new ArrayList<>(numberOfStudents);
 
-        for (int i = 0; i < numberOfStudents; i++) {
+        System.out.print("Введите название группы: ");
+        String groupName = sc.next();
 
-            int numberForConsole = i + 1;
-            String firstName;
-            String lastName;
-            int rating;
-            System.out.print("Введите имя студента № " + numberForConsole);
+        Group group = Utils.createGroup(numberOfStudents, groupName);
+        System.out.println("Создана новая группа студентов: \n" + group);
 
-            firstName = sc.next();
+        System.out.println("Проводим выборы стартосты группы: " + group.getName());
+        long leaderId = Utils.leaderElection(group);
+        group.setLeader(leaderId);
+        System.out.println("Выбран новый староста группы: " + group.get(leaderId).orElse(new Student(-1, "N/A", "N/A", 0, true)));
 
-            sc.nextLine();
-            System.out.print("Введите фамилию студента № " + numberForConsole);
-
-            lastName = sc.nextLine();
-            System.out.print("Введите рейтинг (от 1 до 10 в целых числах) студента № " + numberForConsole);
-
-            rating = sc.nextInt();
-            group.add(new Student(numberForConsole, firstName, lastName, rating, false));
-        }
-
-        System.out.println("Группа студентов: " + group);
-
-        int maxRating = 0;
-        int leaderIndex = 0;
-        for(int i = 0; i < numberOfStudents; i++) {
-            if(maxRating < group.get(i).getRating()) {
-                maxRating = group.get(i).getRating();
-                leaderIndex = i;
-            }
-        }
-        group.get(leaderIndex).setLeader(true);
-        System.out.println("Староста группы: " + group.get(leaderIndex));
-
-        Random rnd = new Random();
-        for(Student student : group) {
-            student.setPresent(rnd.nextBoolean());
-        }
-
-        printPresents(group);
+        System.out.println("Проводим перекличку группы: " + group.getName());
+        int attendeesNumber = group.startNextClass();
+        System.out.println("В перекличке участвовало " + attendeesNumber + " человек");
+        group.printPresents();
     }
 
-    private static void printPresents(List<Student> group) {
 
-        System.out.println("Сегодня присутствуют:");
-        for(Student student : group) {
-            if(student.isPresent()) {
-                System.out.println(student);
-            }
-        }
-    }
 }
